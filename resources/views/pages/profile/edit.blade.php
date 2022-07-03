@@ -2,11 +2,17 @@
 
 @section('content')
 
-    <form class="user" action="{{ route('profile.update',['profile' => $profile->id]) }}" method="POST">
+    <form class="user" action="{{ route('profile.update',['profile' => $profile->id]) }}" method="POST" enctype="multipart/form-data"
+    >
     @csrf
     @method('PUT')
 
         <div class="form-group" >
+            <div class="custom-file">
+                <input type="file" class="custom-file-input " id="avatar" name="avatar" >
+                <label for="avatar" class="custom-file-label">{{$profile->avatar}}</label>
+            </div>
+
             <input type="text" name="full_name" class="form-control form-control-user" id="full_name" placeholder="Full Name" value="{{$profile->full_name}}">
         </div>
         <div class="form-group">

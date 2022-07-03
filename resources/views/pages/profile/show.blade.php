@@ -2,8 +2,30 @@
 
 @section('content')
 
+    <!-- lấy thông tin thông báo đã thêm vào session để hiển thị -->
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success"> <!-- tự chuyển sang sử dụng alert component đã tạo các tuần trước -->
+            <li>{{ $message }}  </li>
+            @if ($message = Session::get('file'))
+                <li>{{ $message }}  </li>
+            @endif
+
+        </div>
+    @endif
+
+    <!-- lấy thông tin lỗi khi validate hiển thị trên màn hình -->
+    @if (count($errors) > 0)
+        <div class="alert alert-danger"> <!-- tự chuyển sang sử dụng alert component đã tạo các tuần trước -->
+{{--            <li>{{ $message }}  </li>--}}
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
 {{--    <a href="{{ route('profile.edit',['profile' => $profile->id])}}">edit</a>--}}
-<form class="user" action="{{ route('profile.update',['profile' => $profile->id]) }}" method="POST">
+<form class="user" action="{{ route('profile.update',['profile' => $profile->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -11,7 +33,7 @@
         <div class="col-md-8">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="title">Chỉnh Sửa Profile</h5>
+                    <h3 class="title">Chỉnh Sửa Profile</h3>
                 </div>
                 <div class="card-body">
                     <form>
@@ -29,6 +51,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="col-md-8 pr-md-1">
                                 <div class="form-group">
@@ -44,17 +67,24 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row">
+                            <div class="col-md-8 pr-md-1">
+                                <div class="form-group">
+                                    <label>Cập Nhật Ảnh</label>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input " id="avatar" name="avatar" >
+                                        <label for="avatar" class="custom-file-label">{{$profile->avatar}}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
                     </form>
                 </div>
+
                 <div class="card-footer">
                     <button type="submit" id="btn" class="btn btn-primary btn-block" value="Update" onclick="demo.showNotification('top','right')">Cập Nhật</button>
-                    <script language="javascript">
-                        var button = document.getElementById("btn");
-                        button.onclick = function(){
-                            alert("Đã cập nhật thành công thông tin người dùng!");
-                        }
-                    </script>
-                    <x-package-alert type="danger"  message="demo component"/>
                 </div>
 
             </div>
@@ -101,3 +131,14 @@
         </div>
     </div>
 @endsection
+
+@section('js')
+        <script>
+            $('#avatar').on('change',function(){
+                //get the file name
+                var fileName = $(this).val();
+                //replace the "Choose a file" label
+                $(this).next('.custom-file-label').html(fileName);
+            })
+        </script>
+@endsection('js')

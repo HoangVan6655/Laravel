@@ -37,6 +37,7 @@
             @yield('content')
         </div>
         @include('includes.footer')
+
     </div>
 </div>
 <div class="fixed-plugin">
@@ -220,6 +221,7 @@
         application: "black-dashboard-free"
     });
 </script>
+@yield('js')
 </body>
 
 </html>
