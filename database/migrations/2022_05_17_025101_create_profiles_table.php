@@ -18,6 +18,7 @@ return new class extends Migration
             //bo sung
             $table->integer('user_id');
             $table->string('full_name',100);
+            $table->text('email');
             $table->text('address');
             $table->text('avatar');
             $table->date('birthday');

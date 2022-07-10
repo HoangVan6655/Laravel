@@ -3,8 +3,8 @@
 @section('content')
 
     <form class="user" action="{{ route('profile.update',['profile' => $profile->id]) }}" method="POST" enctype="multipart/form-data">
-    @csrf
-    @method('PUT')
+        @csrf
+        @method('PUT')
 
         <div class="form-group" >
             <div class="custom-file">
