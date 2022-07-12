@@ -4,66 +4,27 @@
   -->
     <div class="sidebar-wrapper">
         <div class="logo">
-            <a href="javascript:void(0)" class="simple-text logo-mini">
-                CT
-            </a>
             <a href="javascript:void(0)" class="simple-text logo-normal">
-                Creative Tim
+                Dashboard Admin by HV
             </a>
         </div>
         <ul class="nav">
-            <li class="active ">
-                <a href="./dashboard.html">
-                    <i class="tim-icons icon-chart-pie-36"></i>
-                    <p>Dashboard</p>
-                </a>
-            </li>
             <li>
-                <a href="./icons.html">
-                    <i class="tim-icons icon-atom"></i>
-                    <p>Icons</p>
-                </a>
-            </li>
-            <li>
-                <a href="./map.html">
+                <a href="http://127.0.0.1:8000/category">
                     <i class="tim-icons icon-pin"></i>
-                    <p>Maps</p>
+                    <p>Danh Mục</p>
                 </a>
             </li>
             <li>
-                <a href="./notifications.html">
-                    <i class="tim-icons icon-bell-55"></i>
-                    <p>Notifications</p>
-                </a>
-            </li>
-            <li>
-                <a href="http://127.0.0.1:8000/userprofile">
-                    <i class="tim-icons icon-single-02"></i>
-                    <p>User Profile</p>
+                <a href="http://127.0.0.1:8000/products">
+                    <i class="tim-icons icon-align-center"></i>
+                    <p>Sản Phẩm</p>
                 </a>
             </li>
             <li>
                 <a href="http://127.0.0.1:8000/users">
-                    <i class="tim-icons icon-puzzle-10"></i>
-                    <p>User Table List</p>
-                </a>
-            </li>
-            <li>
-                <a href="./typography.html">
-                    <i class="tim-icons icon-align-center"></i>
-                    <p>Typography</p>
-                </a>
-            </li>
-            <li>
-                <a href="./rtl.html">
-                    <i class="tim-icons icon-world"></i>
-                    <p>RTL Support</p>
-                </a>
-            </li>
-            <li class="active-pro">
-                <a href="./upgrade.html">
-                    <i class="tim-icons icon-spaceship"></i>
-                    <p>Upgrade to PRO</p>
+                    <i class="tim-icons icon-single-02"></i>
+                    <p>Người Dùng</p>
                 </a>
             </li>
         </ul>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -44,9 +45,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::resource('products', ProductController::class);
+Route::resource('category', CategoryController::class)->middleware(['auth', 'role:editor']);
+Route::resource('products', ProductController::class)->middleware(['auth', 'role:editor']);
 Route::resource('users', UserController::class)->middleware(['auth', 'role:admin']);
 Route::resource('profile',ProfileController::class)->middleware(['auth', 'role:admin']);
+//Route::resource('category',CategoryController::class);
 
 //Route::resource('userprofile', UserController::class);
 //Route::resource('profile',ProfileController::class);

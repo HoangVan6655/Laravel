@@ -1,75 +1,245 @@
-{{--@extends('layouts.app1')--}}
-{{--@section('content')--}}
-{{--    <section class="content-header">--}}
-{{--        <h1>--}}
-{{--            Chỉnh Sửa Sản Phẩm--}}
-{{--        </h1>--}}
-{{--    </section>--}}
-{{--    <section class="content">--}}
-{{--        <form class="products" action="{{ url('/products') }}/{{ $products ->id }}" method="POST" enctype="multipart/form-data">--}}
-{{--            <input type="hidden" name="_method" value="PUT">--}}
-{{--            {{ csrf_field() }}--}}
-{{--            @if(count($errors) >0)--}}
-{{--                <ul>--}}
-{{--                    @foreach($errors->all() as $error)--}}
-{{--                        <li class="text-danger">{{ $error }}</li>--}}
-{{--                    @endforeach--}}
-{{--                </ul>--}}
-{{--            @endif--}}
-{{--            <div class="box">--}}
-{{--                <div class="box-body row">--}}
-{{--                    <div class="form-group col-md-12">--}}
-{{--                        <label>Tên Sản Phẩm</label>--}}
-{{--                        <input type="text" name="txtName" class="form-control" value="{{ $products->name }}">--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group col-md-12">--}}
-{{--                        <label>Số Lượng Sản Phẩm</label>--}}
-{{--                        <input type="text" name="txtSlug" class="form-control"  value="{{ $products->quantity }}">--}}
-{{--                    </div>--}}
-{{--                    <div class="form-group col-md-12">--}}
-{{--                        <label>Giá Sản Phẩm</label>--}}
-{{--                        <textarea name="txtDesc" class="form-control">{{ $products->price }}</textarea>--}}
-{{--                    </div>--}}
-
-{{--                </div>--}}
-{{--                <div class="box-footer row">--}}
-{{--                    <button type="submit" class="btn btn-success">--}}
-{{--                        <i class="fa fa-save"></i>--}}
-{{--                        <span>Lưu và Quay Lại</span>--}}
-{{--                    </button>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </form>--}}
-{{--    </section>--}}
-{{--@endsection--}}
-
-
-@extends('layouts.app1')
-
+@extends('layouts.appdashboard')
 @section('content')
+    @if ($message = Session::get('success'))
+        <div class="alert alert-success"> <!-- tự chuyển sang sử dụng alert component đã tạo các tuần trước -->
+            <li>{{ $message }}  </li>
+            @if ($message = Session::get('Update'))
+                <li>{{ $message }}  </li>
+            @endif
 
-    <form class="user" action="{{ route('products.edit',['products' => $product->id]) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
+        </div>
+    @endif
 
-        <div class="form-group" >
+    <!-- lấy thông tin lỗi khi validate hiển thị trên màn hình -->
+    @if (count($errors) > 0)
+        <div class="alert alert-danger"> <!-- tự chuyển sang sử dụng alert component đã tạo các tuần trước -->
+            {{--            <li>{{ $message }}  </li>--}}
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li> {{ $error }} </li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <section class="content-header">
+        <h1>
+            Chỉnh Sửa Sản Phẩm
+        </h1>
+    </section>
+    <section class="content">
+        <form class="user" action="{{ route('products.update',['product' => $product->id]) }}" method="POST">
+            <input type="hidden" name="_method" value="PUT">
+            {{ csrf_field() }}
+            @if(count($errors) >0)
+                <ul>
+                    @foreach($errors->all() as $error)
+                        <li class="text-danger">{{ $error }}</li>
+                    @endforeach
+                </ul>
+            @endif
+            <div class="box">
+                <div class="box-body row">
+                    <div class="form-group col-md-12">
+                        <label>Tên Sản Phẩm</label>
+                        <input type="text" name="name" class="form-control" id="name" placeholder="name" value="{{ $product->name }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Số Lượng Sản Phẩm</label>
+                        <input type="text" name="quantity" class="form-control" id="quantity" placeholder="quantity"  value="{{ $product->quantity }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Giá Sản Phẩm</label>
+                        <input type="text" name="price" class="form-control" id="price" placeholder="price"  value="{{ $product->price }}">
+                    </div>
+                    <div class="form-group col-md-12">
+                        <label>Mô Tả Sản Phẩm</label>
+                        <textarea name="describe" class="form-control" id="describe" placeholder="describe">{{ $product->describe }}</textarea>
+                    </div>
+
+                </div>
+                <div class="box-footer row">
+                    <button type="submit" id="btn" class="btn btn-primary btn-block" value="Update">
+                        <i class="fa fa-save"></i>
+                        <span>Lưu và Quay Lại</span>
+                    </button>
+                </div>
+            </div>
+        </form>
+    </section>
+@endsection
+
+
+{{--@extends('layouts.app1')--}}
+
+{{--@section('content')--}}
+
+{{--    <form class="user" action="{{ route('products.edit',['products' => $product->id]) }}" method="POST" enctype="multipart/form-data">--}}
+{{--        @csrf--}}
+{{--        @method('PUT')--}}
+
+{{--        <div class="form-group" >--}}
 {{--            <div class="custom-file">--}}
 {{--                <input type="file" class="custom-file-input " id="avatar" name="avatar" >--}}
 {{--                <label for="avatar" class="custom-file-label">{{$products->name}}</label>--}}
 {{--            </div>--}}
 
-            <input type="text" name="full_name" class="form-control form-control-user" id="full_name" placeholder="Full Name" value="{{$product->name}}">
-        </div>
-        <div class="form-group">
-            <input type="text" name="address" class="form-control form-control-user" id="address" placeholder="Address" value="{{$product->name}}">
-        </div>
-        <div class="form-group row">
-            <div class="col-sm-6 mb-3 mb-sm-0">
-                <input type="date" class="form-control form-control-user" name="birthday" id="birthday" placeholder="Birthday" value="{{$product->name}}">
-            </div>
-        </div>
-        <input type="submit" class="btn btn-primary" value="Update">
-    </form>
+{{--            <input type="text" name="full_name" class="form-control form-control-user" id="full_name" placeholder="Full Name" value="{{$product->name}}">--}}
+{{--        </div>--}}
+{{--        <div class="form-group">--}}
+{{--            <input type="text" name="address" class="form-control form-control-user" id="address" placeholder="Address" value="{{$product->name}}">--}}
+{{--        </div>--}}
+{{--        <div class="form-group row">--}}
+{{--            <div class="col-sm-6 mb-3 mb-sm-0">--}}
+{{--                <input type="date" class="form-control form-control-user" name="birthday" id="birthday" placeholder="Birthday" value="{{$product->name}}">--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--        <input type="submit" class="btn btn-primary" value="Update">--}}
+{{--    </form>--}}
 
 
-@endsection
+{{--@endsection--}}
+
+{{--@extends('layouts.app1')--}}
+
+{{--@section('content')--}}
+{{--    <!-- lấy thông tin thông báo đã thêm vào session để hiển thị -->--}}
+{{--    @if ($message = Session::get('success'))--}}
+{{--        <div class="alert alert-success"> <!-- tự chuyển sang sử dụng alert component đã tạo các tuần trước -->--}}
+{{--            <li>{{ $message }}  </li>--}}
+{{--            @if ($message = Session::get('file'))--}}
+{{--                <li>{{ $message }}  </li>--}}
+{{--            @endif--}}
+
+{{--        </div>--}}
+{{--    @endif--}}
+
+{{--    <!-- lấy thông tin lỗi khi validate hiển thị trên màn hình -->--}}
+{{--    @if (count($errors) > 0)--}}
+{{--        <div class="alert alert-danger"> <!-- tự chuyển sang sử dụng alert component đã tạo các tuần trước -->--}}
+{{--            --}}{{--            <li>{{ $message }}  </li>--}}
+{{--            <ul>--}}
+{{--                @foreach ($errors->all() as $error)--}}
+{{--                    <li>{{ $error }}</li>--}}
+{{--                @endforeach--}}
+{{--            </ul>--}}
+{{--        </div>--}}
+{{--    @endif--}}
+
+{{--    <form class="user" action="{{ route('products.update',['product' => $product->id]) }}" method="POST">--}}
+{{--        @csrf--}}
+{{--        @method('PUT')--}}
+
+{{--        <div class="row">--}}
+{{--            <div class="col-md-8">--}}
+{{--                <div class="card">--}}
+{{--                    <div class="card-header">--}}
+{{--                        <h3 class="title">Chỉnh Sửa Profile</h3>--}}
+{{--                    </div>--}}
+{{--                    <div class="card-body">--}}
+{{--                        <form>--}}
+{{--                            <div class="row">--}}
+{{--                                <div class="col-md-6 pr-md-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label>Họ và Tên</label>--}}
+{{--                                        <input type="text" name="full_name" class="form-control form-control-user" id="full_name" placeholder="Full Name" value="{{$profile->full_name}}">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                                <div class="col-md-6 pl-md-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label>Email</label>--}}
+{{--                                        <input type="text" name="email" class="form-control form-control-user" id="email" placeholder="Email" value="{{$profile->email}}" v>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
+{{--                            <div class="row">--}}
+{{--                                <div class="col-md-8 pr-md-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label>Địa Chỉ</label>--}}
+{{--                                        <input type="text" name="address" class="form-control form-control-user" id="address" placeholder="Address" value="{{$profile->address}}">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                                <div class="col-md-4 pl-md-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label>Ngày Sinh</label>--}}
+{{--                                        <input type="date" class="form-control form-control-user" name="birthday" id="birthday" placeholder="Birthday" value="{{$profile->birthday}}">--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+
+{{--                            <div class="row">--}}
+{{--                                <div class="col-md-8 pr-md-1">--}}
+{{--                                    <div class="form-group">--}}
+{{--                                        <label>Cập Nhật Ảnh</label>--}}
+{{--                                        <div class="custom-file">--}}
+{{--                                            <input type="file" class="custom-file-input " id="avatar" name="avatar" >--}}
+{{--                                            <label for="avatar" class="custom-file-label">{{$profile->avatar}}</label>--}}
+{{--                                        </div>--}}
+{{--                                    </div>--}}
+{{--                                </div>--}}
+
+{{--                            </div>--}}
+{{--                        </form>--}}
+{{--                    </div>--}}
+
+{{--                    <div class="card-footer">--}}
+{{--                        <button type="submit" id="btn" class="btn btn-primary btn-block" value="Update" onclick="demo.showNotification('top','right')">Cập Nhật</button>--}}
+{{--                    </div>--}}
+
+{{--                </div>--}}
+{{--            </div>--}}
+{{--            <div class="col-md-4">--}}
+{{--                <div class="card card-user">--}}
+{{--                    <div class="card-body">--}}
+{{--                        <p class="card-text">--}}
+{{--                        <div class="author">--}}
+{{--                            <div class="block block-one"></div>--}}
+{{--                            <div class="block block-two"></div>--}}
+{{--                            <div class="block block-three"></div>--}}
+{{--                            <div class="block block-four"></div>--}}
+
+{{--                            <a href="javascript:void(0)">--}}
+{{--                                <img class="avatar" src="{{$profile->avatar}}" alt="...">--}}
+{{--                                <h5 class="title">{{$profile->full_name}}</h5>--}}
+{{--                            </a>--}}
+{{--                            <p class="birthday">--}}
+{{--                                {{$profile->birthday}}--}}
+{{--                            </p>--}}
+{{--                            <p class="address">--}}
+{{--                                {{$profile->email}}--}}
+{{--                            </p>--}}
+{{--                            <p class="address">--}}
+{{--                                {{$profile->address}}--}}
+{{--                            </p>--}}
+{{--                        </div>--}}
+{{--                        </p>--}}
+
+{{--                    </div>--}}
+{{--                    <div class="card-footer">--}}
+{{--                        <div class="button-container">--}}
+{{--                            <button href="javascript:void(0)" class="btn btn-icon btn-round btn-facebook" >--}}
+{{--                                <i class="fab fa-facebook"  ></i>--}}
+{{--                            </button>--}}
+
+{{--                            <button href="javascript:void(0)" class="btn btn-icon btn-round btn-google">--}}
+{{--                                <i class="fab fa-google-plus"></i>--}}
+{{--                            </button>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+{{--            </div>--}}
+{{--        </div>--}}
+{{--@endsection--}}
+
+{{--@section('js')--}}
+{{--     <script>--}}
+{{--         $('#avatar').on('change',function(){--}}
+{{--             //get the file name--}}
+{{--             var fileName = $(this).val();--}}
+{{--             //replace the "Choose a file" label--}}
+{{--             $(this).next('.custom-file-label').html(fileName);--}}
+{{--         })--}}
+{{--     </script>--}}
+{{--@endsection('js')--}}
